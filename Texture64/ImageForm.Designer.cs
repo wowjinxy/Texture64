@@ -581,12 +581,12 @@
          // gviewPalette
          // 
          this.gviewPalette.AutoPixelSize = true;
-         this.gviewPalette.Codec = Texture64.N64Codec.RGBA16;
+         this.gviewPalette.Codec = Texture64.ColorCodecs.RGBA16;
          this.gviewPalette.ContextMenuStrip = this.gvContextMenuStrip;
          this.gviewPalette.Enabled = false;
          this.gviewPalette.Location = new System.Drawing.Point(6, 43);
          this.gviewPalette.Margin = new System.Windows.Forms.Padding(4);
-         this.gviewPalette.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.gviewPalette.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.gviewPalette.Name = "gviewPalette";
          this.gviewPalette.PixScale = 8;
          this.gviewPalette.PixSize = new System.Drawing.Size(16, 16);
@@ -812,13 +812,13 @@
          // graphicsViewerCustom
          // 
          this.graphicsViewerCustom.AutoPixelSize = false;
-         this.graphicsViewerCustom.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewerCustom.Codec = Texture64.ColorCodecs.RGBA16;
          this.tableLayoutPanel1.SetColumnSpan(this.graphicsViewerCustom, 3);
          this.graphicsViewerCustom.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewerCustom.Enabled = false;
          this.graphicsViewerCustom.Location = new System.Drawing.Point(4, 275);
          this.graphicsViewerCustom.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewerCustom.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewerCustom.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewerCustom.Name = "graphicsViewerCustom";
          this.graphicsViewerCustom.PixScale = 2;
          this.graphicsViewerCustom.PixSize = new System.Drawing.Size(128, 128);
@@ -833,12 +833,12 @@
          // graphicsViewer8x16
          // 
          this.graphicsViewer8x16.AutoPixelSize = false;
-         this.graphicsViewer8x16.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewer8x16.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewer8x16.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewer8x16.Enabled = false;
          this.graphicsViewer8x16.Location = new System.Drawing.Point(212, 166);
          this.graphicsViewer8x16.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewer8x16.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewer8x16.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewer8x16.Name = "graphicsViewer8x16";
          this.graphicsViewer8x16.PixScale = 2;
          this.graphicsViewer8x16.PixSize = new System.Drawing.Size(8, 16);
@@ -853,12 +853,12 @@
          // graphicsViewer64x64
          // 
          this.graphicsViewer64x64.AutoPixelSize = false;
-         this.graphicsViewer64x64.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewer64x64.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewer64x64.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewer64x64.Enabled = false;
          this.graphicsViewer64x64.Location = new System.Drawing.Point(4, 17);
          this.graphicsViewer64x64.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewer64x64.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewer64x64.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewer64x64.Name = "graphicsViewer64x64";
          this.graphicsViewer64x64.PixScale = 2;
          this.graphicsViewer64x64.PixSize = new System.Drawing.Size(64, 64);
@@ -874,12 +874,12 @@
          // graphicsViewer64x32
          // 
          this.graphicsViewer64x32.AutoPixelSize = false;
-         this.graphicsViewer64x32.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewer64x32.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewer64x32.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewer64x32.Enabled = false;
          this.graphicsViewer64x32.Location = new System.Drawing.Point(4, 166);
          this.graphicsViewer64x32.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewer64x32.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewer64x32.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewer64x32.Name = "graphicsViewer64x32";
          this.graphicsViewer64x32.PixScale = 2;
          this.graphicsViewer64x32.PixSize = new System.Drawing.Size(64, 32);
@@ -895,12 +895,12 @@
          // graphicsViewer32x64
          // 
          this.graphicsViewer32x64.AutoPixelSize = false;
-         this.graphicsViewer32x64.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewer32x64.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewer32x64.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewer32x64.Enabled = false;
          this.graphicsViewer32x64.Location = new System.Drawing.Point(140, 17);
          this.graphicsViewer32x64.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewer32x64.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewer32x64.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewer32x64.Name = "graphicsViewer32x64";
          this.graphicsViewer32x64.PixScale = 2;
          this.graphicsViewer32x64.PixSize = new System.Drawing.Size(32, 64);
@@ -916,12 +916,12 @@
          // graphicsViewer8x8
          // 
          this.graphicsViewer8x8.AutoPixelSize = false;
-         this.graphicsViewer8x8.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewer8x8.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewer8x8.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewer8x8.Enabled = false;
          this.graphicsViewer8x8.Location = new System.Drawing.Point(212, 219);
          this.graphicsViewer8x8.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewer8x8.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewer8x8.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewer8x8.Name = "graphicsViewer8x8";
          this.graphicsViewer8x8.PixScale = 2;
          this.graphicsViewer8x8.PixSize = new System.Drawing.Size(8, 8);
@@ -937,12 +937,12 @@
          // graphicsViewer16x32
          // 
          this.graphicsViewer16x32.AutoPixelSize = false;
-         this.graphicsViewer16x32.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewer16x32.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewer16x32.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewer16x32.Enabled = false;
          this.graphicsViewer16x32.Location = new System.Drawing.Point(212, 17);
          this.graphicsViewer16x32.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewer16x32.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewer16x32.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewer16x32.Name = "graphicsViewer16x32";
          this.graphicsViewer16x32.PixScale = 2;
          this.graphicsViewer16x32.PixSize = new System.Drawing.Size(16, 32);
@@ -957,12 +957,12 @@
          // graphicsViewer16x16
          // 
          this.graphicsViewer16x16.AutoPixelSize = false;
-         this.graphicsViewer16x16.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewer16x16.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewer16x16.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewer16x16.Enabled = false;
          this.graphicsViewer16x16.Location = new System.Drawing.Point(212, 102);
          this.graphicsViewer16x16.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewer16x16.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewer16x16.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewer16x16.Name = "graphicsViewer16x16";
          this.graphicsViewer16x16.PixScale = 2;
          this.graphicsViewer16x16.PixSize = new System.Drawing.Size(16, 16);
@@ -977,12 +977,12 @@
          // graphicsViewer32x32
          // 
          this.graphicsViewer32x32.AutoPixelSize = false;
-         this.graphicsViewer32x32.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewer32x32.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewer32x32.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewer32x32.Enabled = false;
          this.graphicsViewer32x32.Location = new System.Drawing.Point(140, 166);
          this.graphicsViewer32x32.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewer32x32.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewer32x32.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewer32x32.Name = "graphicsViewer32x32";
          this.graphicsViewer32x32.PixScale = 2;
          this.graphicsViewer32x32.PixSize = new System.Drawing.Size(32, 32);
@@ -1070,12 +1070,12 @@
          this.graphicsViewerMap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
          this.graphicsViewerMap.AutoPixelSize = true;
-         this.graphicsViewerMap.Codec = Texture64.N64Codec.RGBA16;
+         this.graphicsViewerMap.Codec = Texture64.ColorCodecs.RGBA16;
          this.graphicsViewerMap.ContextMenuStrip = this.gvContextMenuStrip;
          this.graphicsViewerMap.Enabled = false;
          this.graphicsViewerMap.Location = new System.Drawing.Point(20, 51);
          this.graphicsViewerMap.Margin = new System.Windows.Forms.Padding(4);
-         this.graphicsViewerMap.Mode = Texture64.N64IMode.AlphaCopyIntensity;
+         this.graphicsViewerMap.Mode = Texture64.AlphaMode.AlphaCopyIntensity;
          this.graphicsViewerMap.Name = "graphicsViewerMap";
          this.graphicsViewerMap.PixScale = 1;
          this.graphicsViewerMap.PixSize = new System.Drawing.Size(0, 0);

@@ -25,9 +25,9 @@ namespace Texture64
       }
       public int PixScale { get; set; }
 
-      public N64Codec Codec { get; set; }
+      public ColorCodecs Codec { get; set; }
 
-      public N64IMode Mode { get; set; }
+      public AlphaMode Mode { get; set; }
 
       public GraphicsViewer()
       {

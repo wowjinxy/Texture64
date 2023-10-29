@@ -32,21 +32,21 @@ namespace Texture64
          }
       }
 
-      private static N64Codec WhichCodec(int idx)
+      private static ColorCodecs WhichCodec(int idx)
       {
-         N64Codec viewerCodec = N64Codec.RGBA16;
+         ColorCodecs viewerCodec = ColorCodecs.RGBA16;
          switch (idx)
          {
-            case 0: viewerCodec = N64Codec.RGBA16; break;
-            case 1: viewerCodec = N64Codec.RGBA32; break;
-            case 2: viewerCodec = N64Codec.IA16; break;
-            case 3: viewerCodec = N64Codec.IA8; break;
-            case 4: viewerCodec = N64Codec.IA4; break;
-            case 5: viewerCodec = N64Codec.I8; break;
-            case 6: viewerCodec = N64Codec.I4; break;
-            case 7: viewerCodec = N64Codec.CI8; break;
-            case 8: viewerCodec = N64Codec.CI4; break;
-            case 9: viewerCodec = N64Codec.ONEBPP; break;
+            case 0: viewerCodec = ColorCodecs.RGBA16; break;
+            case 1: viewerCodec = ColorCodecs.RGBA32; break;
+            case 2: viewerCodec = ColorCodecs.IA16; break;
+            case 3: viewerCodec = ColorCodecs.IA8; break;
+            case 4: viewerCodec = ColorCodecs.IA4; break;
+            case 5: viewerCodec = ColorCodecs.I8; break;
+            case 6: viewerCodec = ColorCodecs.I4; break;
+            case 7: viewerCodec = ColorCodecs.CI8; break;
+            case 8: viewerCodec = ColorCodecs.CI4; break;
+            case 9: viewerCodec = ColorCodecs.ONEBPP; break;
          }
          return viewerCodec;
       }
@@ -63,7 +63,7 @@ namespace Texture64
 
          StringBuilder sb = new StringBuilder();
 
-         N64Codec testCodec = WhichCodec(idx);
+         ColorCodecs testCodec = WhichCodec(idx);
 
          // randomize inputs
          Random rng = new Random();
@@ -73,7 +73,7 @@ namespace Texture64
          // if alpha bit clear, clear all bits
          switch (testCodec)
          {
-            case N64Codec.RGBA16:
+            case ColorCodecs.RGBA16:
                for (int i = 0; i < test.Length; i += 2)
                {
                   if ((test[i+1] & 0x1) == 0)
@@ -83,7 +83,7 @@ namespace Texture64
                   }
                }
                break;
-            case N64Codec.IA16:
+            case ColorCodecs.IA16:
                for (int i = 0; i < test.Length; i += 2)
                {
                   if ((test[i + 1]) == 0)
@@ -92,7 +92,7 @@ namespace Texture64
                   }
                }
                break;
-            case N64Codec.IA8:
+            case ColorCodecs.IA8:
                for (int i = 0; i < test.Length; i++)
                {
                   if ((test[i] & 0x0F) == 0)
@@ -101,7 +101,7 @@ namespace Texture64
                   }
                }
                break;
-            case N64Codec.IA4:
+            case ColorCodecs.IA4:
                for (int i = 0; i < test.Length; i++)
                {
                   if ((test[i] & 0x10) == 0)
@@ -114,8 +114,8 @@ namespace Texture64
                   }
                }
                break;
-            case N64Codec.CI4:
-            case N64Codec.CI8:
+            case ColorCodecs.CI4:
+            case ColorCodecs.CI8:
                for (int i = 0; i < pal.Length; i += 2)
                {
                   if ((pal[i + 1] & 0x1) == 0)
@@ -130,10 +130,10 @@ namespace Texture64
          Bitmap b = new Bitmap(width, height, PixelFormat.Format32bppArgb);
          Graphics g = Graphics.FromImage(b);
          
-         N64Graphics.RenderTexture(g, test, pal, 0, width, height, 1, testCodec, N64IMode.AlphaCopyIntensity);
+         N64Graphics.RenderTexture(g, test, pal, 0, width, height, 1, testCodec, AlphaMode.AlphaCopyIntensity);
          N64Graphics.Convert(ref result, ref resultPal, testCodec, b);
          Bitmap bres = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-         N64Graphics.RenderTexture(Graphics.FromImage(bres), result, resultPal, 0, width, height, 1, testCodec, N64IMode.AlphaCopyIntensity);
+         N64Graphics.RenderTexture(Graphics.FromImage(bres), result, resultPal, 0, width, height, 1, testCodec, AlphaMode.AlphaCopyIntensity);
          for (int i = 0; i < result.Length; i++)
          {
             if (test[i] != result[i])

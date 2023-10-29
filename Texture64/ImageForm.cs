@@ -27,8 +27,8 @@ namespace Texture64
       private byte[] curPalette;
       private bool separatePalette = false;
 
-      private N64Codec viewerCodec = N64Codec.RGBA16;
-      private N64IMode viewerMode = N64IMode.AlphaCopyIntensity;
+      private ColorCodecs viewerCodec = ColorCodecs.RGBA16;
+      private AlphaMode viewerMode = AlphaMode.AlphaCopyIntensity;
 
       // drag and drop data
       private string lastFilename;
@@ -159,7 +159,7 @@ namespace Texture64
          }
          toolStripCodec.SelectedIndex = 0;
          toolStripAlpha.SelectedIndex = 0;
-         gviewPalette.Codec = N64Codec.RGBA16;
+         gviewPalette.Codec = ColorCodecs.RGBA16;
 
          // bind the value of the scrollbar to the value of the offset box
          numericOffset.DataBindings.Add("Value", vScrollBarOffset, "Value", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -355,20 +355,20 @@ namespace Texture64
 
       private void toolStripCodec_SelectedIndexChanged(object sender, EventArgs e)
       {
-         N64Codec prevCodec = viewerCodec;
-         viewerCodec = N64Codec.RGBA16;
+         ColorCodecs prevCodec = viewerCodec;
+         viewerCodec = ColorCodecs.RGBA16;
          switch (toolStripCodec.SelectedIndex)
          {
-            case 0: viewerCodec = N64Codec.RGBA16; break;
-            case 1: viewerCodec = N64Codec.RGBA32; break;
-            case 2: viewerCodec = N64Codec.IA16; break;
-            case 3: viewerCodec = N64Codec.IA8; break;
-            case 4: viewerCodec = N64Codec.IA4; break;
-            case 5: viewerCodec = N64Codec.I8; break;
-            case 6: viewerCodec = N64Codec.I4; break;
-            case 7: viewerCodec = N64Codec.CI8; break;
-            case 8: viewerCodec = N64Codec.CI4; break;
-            case 9: viewerCodec = N64Codec.ONEBPP; break;
+            case 0: viewerCodec = ColorCodecs.RGBA16; break;
+            case 1: viewerCodec = ColorCodecs.RGBA32; break;
+            case 2: viewerCodec = ColorCodecs.IA16; break;
+            case 3: viewerCodec = ColorCodecs.IA8; break;
+            case 4: viewerCodec = ColorCodecs.IA4; break;
+            case 5: viewerCodec = ColorCodecs.I8; break;
+            case 6: viewerCodec = ColorCodecs.I4; break;
+            case 7: viewerCodec = ColorCodecs.CI8; break;
+            case 8: viewerCodec = ColorCodecs.CI4; break;
+            case 9: viewerCodec = ColorCodecs.ONEBPP; break;
          }
          if (prevCodec != viewerCodec)
          {
@@ -379,27 +379,27 @@ namespace Texture64
             }
             switch (viewerCodec)
             {
-               case N64Codec.CI8:
+               case ColorCodecs.CI8:
                   gviewPalette.PixScale = 8;
                   break;
-               case N64Codec.CI4:
+               case ColorCodecs.CI4:
                   gviewPalette.PixScale = 32;
                   break;
             }
             gviewPalette.Invalidate();
-            groupBoxPalette.Visible = viewerCodec == N64Codec.CI8 || viewerCodec == N64Codec.CI4;
-            toolStripAlpha.Enabled = viewerCodec == N64Codec.I8 || viewerCodec == N64Codec.I4;
+            groupBoxPalette.Visible = viewerCodec == ColorCodecs.CI8 || viewerCodec == ColorCodecs.CI4;
+            toolStripAlpha.Enabled = viewerCodec == ColorCodecs.I8 || viewerCodec == ColorCodecs.I4;
          }
       }
 
       private void toolStripAlpha_SelectedIndexChanged(object sender, EventArgs e)
       {
-         N64IMode prevMode = viewerMode;
+         AlphaMode prevMode = viewerMode;
          switch (toolStripAlpha.SelectedIndex)
          {
-            case 0: viewerMode = N64IMode.AlphaCopyIntensity; break;
-            case 1: viewerMode = N64IMode.AlphaBinary; break;
-            case 2: viewerMode = N64IMode.AlphaOne; break;
+            case 0: viewerMode = AlphaMode.AlphaCopyIntensity; break;
+            case 1: viewerMode = AlphaMode.AlphaBinary; break;
+            case 2: viewerMode = AlphaMode.AlphaOne; break;
          }
          if (prevMode != viewerMode)
          {
@@ -769,25 +769,25 @@ namespace Texture64
             int selectBits = 0;
             switch (gv.Codec)
             {
-               case N64Codec.RGBA32:
+               case ColorCodecs.RGBA32:
                   nibblesPerPix = 8;
                   break;
-               case N64Codec.RGBA16:
-               case N64Codec.IA16:
+               case ColorCodecs.RGBA16:
+               case ColorCodecs.IA16:
                   nibblesPerPix = 4;
                   break;
-               case N64Codec.IA8:
-               case N64Codec.I8:
-               case N64Codec.CI8:
+               case ColorCodecs.IA8:
+               case ColorCodecs.I8:
+               case ColorCodecs.CI8:
                   nibblesPerPix = 2;
                   break;
-               case N64Codec.IA4:
-               case N64Codec.I4:
-               case N64Codec.CI4:
+               case ColorCodecs.IA4:
+               case ColorCodecs.I4:
+               case ColorCodecs.CI4:
                   selectBits = 4;
                   select = pixOffset & 0x1;
                   break;
-               case N64Codec.ONEBPP:
+               case ColorCodecs.ONEBPP:
                   selectBits = 1;
                   select = pixOffset & 0x7;
                   break;
