@@ -1,65 +1,68 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using static Texture64.Scales;
 
 namespace Texture64
 {
-    public class Colors
+    public enum AlphaMode { AlphaBinary, AlphaCopyIntensity, AlphaOne }
+
+    public static class Colors
     {
-        public static Color RGBA16Color(byte c0, byte c1)
+        private static Color CreateColor(int a, int r, int g, int b)
         {
-            int r = SCALE_5_8((c0 & 0xF8) >> 3);
-            int g = SCALE_5_8(((c0 & 0x07) << 2) | ((c1 & 0xC0) >> 6));
-            int b = SCALE_5_8((c1 & 0x3E) >> 1);
-            int a = ((c1 & 0x1) > 0) ? 255 : 0;
             return Color.FromArgb(a, r, g, b);
+        }
+
+        public static Color RGBA16Color((byte c0, byte c1) colorTuple)
+        {
+            int r = SCALE_5_8((colorTuple.c0 & 0xF8) >> 3);
+            int g = SCALE_5_8(((colorTuple.c0 & 0x07) << 2) | ((colorTuple.c1 & 0xC0) >> 6));
+            int b = SCALE_5_8((colorTuple.c1 & 0x3E) >> 1);
+            int a = ((colorTuple.c1 & 0x1) > 0) ? 255 : 0;
+            return CreateColor(a, r, g, b);
         }
 
         public static Color RGBA16Color(byte[] data, int pixOffset)
         {
-            byte c0 = data[pixOffset];
-            byte c1 = data[pixOffset + 1];
-
-            return RGBA16Color(c0, c1);
+            ValidateArrayAndOffset(data, pixOffset, 2);
+            return RGBA16Color((data[pixOffset], data[pixOffset + 1]));
         }
 
         public static Color RGBA32Color(byte[] data, int pixOffset)
         {
-            int r, g, b, a;
-            r = data[pixOffset];
-            g = data[pixOffset + 1];
-            b = data[pixOffset + 2];
-            a = data[pixOffset + 3];
-            return Color.FromArgb(a, r, g, b);
+            ValidateArrayAndOffset(data, pixOffset, 4);
+            return CreateColor(data[pixOffset + 3], data[pixOffset], data[pixOffset + 1], data[pixOffset + 2]);
         }
 
         public static Color IA16Color(byte[] data, int pixOffset)
         {
+            ValidateArrayAndOffset(data, pixOffset, 2);
             int i = data[pixOffset];
             int a = data[pixOffset + 1];
-            return Color.FromArgb(a, i, i, i);
+            return CreateColor(a, i, i, i);
         }
 
         public static Color IA8Color(byte[] data, int pixOffset)
         {
-            int i, a;
-            byte c = data[pixOffset];
-            i = (c >> 4) * 0x11;
-            a = (c & 0xF) * 0x11;
-            return Color.FromArgb(a, i, i, i);
+            ValidateArrayAndOffset(data, pixOffset, 1);
+            int i = (data[pixOffset] >> 4) * 0x11;
+            int a = (data[pixOffset] & 0xF) * 0x11;
+            return CreateColor(a, i, i, i);
         }
 
         public static Color IA4Color(byte[] data, int pixOffset, int nibble)
         {
+            ValidateArrayAndOffset(data, pixOffset, 1);
             int shift = (1 - nibble) * 4;
-            int i, a;
             int val = (data[pixOffset] >> shift) & 0xF;
-            i = SCALE_3_8((byte)(val >> 1));
-            a = (val & 0x1) > 0 ? 0xFF : 0x00;
-            return Color.FromArgb(a, i, i, i);
+            int i = Scales.SCALE_3_8((byte)(val & 0x7));  // Mask to 3 bits before scaling
+            int a = (val & 0x8) > 0 ? 0xFF : 0x00;  // Use the highest bit for alpha
+            return CreateColor(a, i, i, i);
         }
 
         public static Color I8Color(byte[] data, int pixOffset, AlphaMode mode = AlphaMode.AlphaCopyIntensity)
         {
+            ValidateArrayAndOffset(data, pixOffset, 1);
             int i = data[pixOffset];
             int a = i;
             switch (mode)
@@ -68,11 +71,12 @@ namespace Texture64
                 case AlphaMode.AlphaCopyIntensity: a = i; break;
                 case AlphaMode.AlphaOne: a = 0xFF; break;
             }
-            return Color.FromArgb(a, i, i, i);
+            return CreateColor(a, i, i, i);
         }
 
         public static Color I4Color(byte[] data, int pixOffset, int nibble, AlphaMode mode = AlphaMode.AlphaCopyIntensity)
         {
+            ValidateArrayAndOffset(data, pixOffset, 1);
             int shift = (1 - nibble) * 4;
             int i = (data[pixOffset] >> shift) & 0xF;
             i *= 0x11;
@@ -83,36 +87,92 @@ namespace Texture64
                 case AlphaMode.AlphaCopyIntensity: a = i; break;
                 case AlphaMode.AlphaOne: a = 0xFF; break;
             }
-            return Color.FromArgb(a, i, i, i);
+            return CreateColor(a, i, i, i);
         }
 
         public static Color CI8Color(byte[] data, byte[] palette, int pixOffset)
         {
-            byte c0, c1;
+            ValidateArrayAndOffset(data, pixOffset, 1);
+            ValidateArrayAndOffset(palette, 0, 2); // Minimum palette length
             int palOffset = 2 * data[pixOffset];
-            c0 = palette[palOffset];
-            c1 = palette[palOffset + 1];
-
-            return RGBA16Color(c0, c1);
+            return RGBA16Color((palette[palOffset], palette[palOffset + 1]));
         }
 
         public static Color CI4Color(byte[] data, byte[] palette, int pixOffset, int nibble)
         {
-            byte c0, c1;
+            ValidateArrayAndOffset(data, pixOffset, 1);
+            ValidateArrayAndOffset(palette, 0, 2); // Minimum palette length
             int shift = (1 - nibble) * 4;
             int palOffset = 2 * ((data[pixOffset] >> shift) & 0xF);
-            c0 = palette[palOffset];
-            c1 = palette[palOffset + 1];
-
-            return RGBA16Color(c0, c1);
+            return RGBA16Color((palette[palOffset], palette[palOffset + 1]));
         }
 
         public static Color BPPColor(byte[] data, int pixOffset, int bit)
         {
-            int i, a;
+            ValidateArrayAndOffset(data, pixOffset, 1);
+            if (bit < 0 || bit > 7)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bit));
+            }
             int val = (data[pixOffset] >> (7 - bit)) & 0x1;
-            i = a = val == 0 ? 0x00 : 0xFF;
-            return Color.FromArgb(a, i, i, i);
+            int i = val == 0 ? 0x00 : 0xFF;
+            int a = i;
+            return CreateColor(a, i, i, i);
+        }
+
+        public static Color RGB565Color(byte[] data, int pixOffset)
+        {
+            ValidateArrayAndOffset(data, pixOffset, 2);
+            ushort val = BitConverter.ToUInt16(data, pixOffset);
+
+            // Extract and scale R, G, B values
+            int r = SCALE_5_8((val & 0xF800) >> 11);  // Corrected the shift to 11
+            int g = (val & 0x07E0) >> 5;              // Corrected the shift to 5, no need to scale as it's already 8 bits
+            int b = SCALE_5_8(val & 0x001F);          // No shift needed
+
+            return CreateColor(255, r, g, b);
+        }
+
+        public static Color RGB555Color(byte[] data, int pixOffset)
+        {
+            ValidateArrayAndOffset(data, pixOffset, 2);
+            ushort val = BitConverter.ToUInt16(data, pixOffset);
+            int r = SCALE_5_8((val & 0x7C00) >> 10);
+            int g = SCALE_5_8((val & 0x03E0) >> 5);
+            int b = SCALE_5_8(val & 0x001F);
+            return CreateColor(255, r, g, b);
+        }
+
+        public static Color RGB24Color(byte[] data, int pixOffset)
+        {
+            ValidateArrayAndOffset(data, pixOffset, 3);
+            int r = data[pixOffset];
+            int g = data[pixOffset + 1];
+            int b = data[pixOffset + 2];
+            return CreateColor(255, r, g, b);
+        }
+
+        public static Color RGB8Color(byte[] data, int pixOffset)
+        {
+            ValidateArrayAndOffset(data, pixOffset, 1);
+            byte val = data[pixOffset];
+            int r = SCALE_3_8((byte)((val & 0xE0) >> 5));
+            int g = SCALE_3_8((byte)((val & 0x1C) >> 2));
+            int b = SCALE_2_8((byte)(val & 0x03));
+            return CreateColor(255, r, g, b);
+        }
+
+        private static void ValidateArrayAndOffset(byte[] array, int offset, int requiredLength)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+
+            if (offset < 0 || offset + requiredLength > array.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(offset));
+            }
         }
     }
 }

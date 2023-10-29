@@ -1,4 +1,6 @@
-﻿namespace Texture64
+﻿using System;
+
+namespace Texture64
 {
    partial class ImageForm
    {
@@ -240,30 +242,24 @@
          this.toolStripLabel2.Name = "toolStripLabel2";
          this.toolStripLabel2.Size = new System.Drawing.Size(44, 24);
          this.toolStripLabel2.Text = "Codec:";
-         // 
-         // toolStripCodec
-         // 
-         this.toolStripCodec.AutoSize = false;
-         this.toolStripCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-         this.toolStripCodec.FlatStyle = System.Windows.Forms.FlatStyle.System;
-         this.toolStripCodec.Items.AddRange(new object[] {
-            "RGBA16",
-            "RGBA32",
-            "IA16",
-            "IA8",
-            "IA4",
-            "I8",
-            "I4",
-            "CI8",
-            "CI4",
-            "1bpp"});
-         this.toolStripCodec.Name = "toolStripCodec";
-         this.toolStripCodec.Size = new System.Drawing.Size(65, 23);
-         this.toolStripCodec.SelectedIndexChanged += new System.EventHandler(this.toolStripCodec_SelectedIndexChanged);
-         // 
-         // toolStripLabel3
-         // 
-         this.toolStripLabel3.Name = "toolStripLabel3";
+            // 
+            // toolStripCodec
+            // 
+            this.toolStripCodec.AutoSize = false;
+            this.toolStripCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripCodec.FlatStyle = System.Windows.Forms.FlatStyle.System;
+
+            // Dynamically populate items based on available codecs
+            this.toolStripCodec.Items.AddRange(Enum.GetNames(typeof(ColorCodecs)));
+
+            this.toolStripCodec.Name = "toolStripCodec";
+            this.toolStripCodec.Size = new System.Drawing.Size(65, 23);
+            this.toolStripCodec.SelectedIndexChanged += new System.EventHandler(this.toolStripCodec_SelectedIndexChanged);
+
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
          this.toolStripLabel3.Size = new System.Drawing.Size(41, 24);
          this.toolStripLabel3.Text = "Alpha:";
          // 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Texture64
 {
-    public class Scales
+    public static class Scales
     {
         public static int SCALE_5_8(int val)
         {
@@ -31,6 +31,11 @@ namespace Texture64
         public static byte SCALE_8_3(byte val)
         {
             return (byte)(val / 0x24);
+        }
+
+        public static int SCALE_2_8(byte val)
+        {
+            return (val * 0xFF) / 0x03;
         }
     }
 }

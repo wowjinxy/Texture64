@@ -353,46 +353,40 @@ namespace Texture64
          SaveFiles();
       }
 
-      private void toolStripCodec_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         ColorCodecs prevCodec = viewerCodec;
-         viewerCodec = ColorCodecs.RGBA16;
-         switch (toolStripCodec.SelectedIndex)
-         {
-            case 0: viewerCodec = ColorCodecs.RGBA16; break;
-            case 1: viewerCodec = ColorCodecs.RGBA32; break;
-            case 2: viewerCodec = ColorCodecs.IA16; break;
-            case 3: viewerCodec = ColorCodecs.IA8; break;
-            case 4: viewerCodec = ColorCodecs.IA4; break;
-            case 5: viewerCodec = ColorCodecs.I8; break;
-            case 6: viewerCodec = ColorCodecs.I4; break;
-            case 7: viewerCodec = ColorCodecs.CI8; break;
-            case 8: viewerCodec = ColorCodecs.CI4; break;
-            case 9: viewerCodec = ColorCodecs.ONEBPP; break;
-         }
-         if (prevCodec != viewerCodec)
-         {
-            foreach (GraphicsViewer gv in viewers)
-            {
-               gv.Codec = viewerCodec;
-               gv.Invalidate();
-            }
-            switch (viewerCodec)
-            {
-               case ColorCodecs.CI8:
-                  gviewPalette.PixScale = 8;
-                  break;
-               case ColorCodecs.CI4:
-                  gviewPalette.PixScale = 32;
-                  break;
-            }
-            gviewPalette.Invalidate();
-            groupBoxPalette.Visible = viewerCodec == ColorCodecs.CI8 || viewerCodec == ColorCodecs.CI4;
-            toolStripAlpha.Enabled = viewerCodec == ColorCodecs.I8 || viewerCodec == ColorCodecs.I4;
-         }
-      }
+        private void toolStripCodec_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ColorCodecs prevCodec = viewerCodec;
 
-      private void toolStripAlpha_SelectedIndexChanged(object sender, EventArgs e)
+            // Directly map from selected index to enum value
+            viewerCodec = (ColorCodecs)toolStripCodec.SelectedIndex;
+
+            if (prevCodec != viewerCodec)
+            {
+                foreach (GraphicsViewer gv in viewers)
+                {
+                    gv.Codec = viewerCodec;
+                    gv.Invalidate();
+                }
+
+                // Update palette scale or other properties based on codec if needed
+                switch (viewerCodec)
+                {
+                    case ColorCodecs.CI8:
+                        gviewPalette.PixScale = 8;
+                        break;
+                    case ColorCodecs.CI4:
+                        gviewPalette.PixScale = 32;
+                        break;
+                        // Add cases for new codecs if they have unique requirements
+                }
+
+                gviewPalette.Invalidate();
+                groupBoxPalette.Visible = viewerCodec == ColorCodecs.CI8 || viewerCodec == ColorCodecs.CI4;
+                toolStripAlpha.Enabled = viewerCodec == ColorCodecs.I8 || viewerCodec == ColorCodecs.I4;
+            }
+        }
+
+        private void toolStripAlpha_SelectedIndexChanged(object sender, EventArgs e)
       {
          AlphaMode prevMode = viewerMode;
          switch (toolStripAlpha.SelectedIndex)
