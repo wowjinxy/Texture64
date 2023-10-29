@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="flower.ico" />
+    <Content Include="Resources\RedBlue.png" />
     <None Include="Resources\document-copy.png" />
     <None Include="Resources\palette-before.png" />
     <None Include="Resources\palette-after.png" />

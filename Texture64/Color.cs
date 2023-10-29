@@ -162,6 +162,41 @@ namespace Texture64
             return CreateColor(255, r, g, b);
         }
 
+        public static Color[] YUV422Color(byte[] data, int pixOffset)
+        {
+            ValidateArrayAndOffset(data, pixOffset, 4);
+            byte y1 = data[pixOffset];
+            byte u = data[pixOffset + 1];
+            byte y2 = data[pixOffset + 2];
+            byte v = data[pixOffset + 3];
+
+            // Convert YUV to RGB (this is a simplified conversion)
+            int r1 = (int)(y1 + 1.402 * (v - 128));
+            int g1 = (int)(y1 - 0.344136 * (u - 128) - 0.714136 * (v - 128));
+            int b1 = (int)(y1 + 1.772 * (u - 128));
+
+            int r2 = (int)(y2 + 1.402 * (v - 128));
+            int g2 = (int)(y2 - 0.344136 * (u - 128) - 0.714136 * (v - 128));
+            int b2 = (int)(y2 + 1.772 * (u - 128));
+
+            return new[] { CreateColor(255, r1, g1, b1), CreateColor(255, r2, g2, b2) };
+        }
+
+        public static Color Grayscale16Color(byte[] data, int pixOffset)
+        {
+            ValidateArrayAndOffset(data, pixOffset, 2);
+            ushort gray = BitConverter.ToUInt16(data, pixOffset);
+            int intensity = gray >> 8; // Scale down to 8-bit
+            return CreateColor(255, intensity, intensity, intensity);
+        }
+
+        public static Color Grayscale8Color(byte[] data, int pixOffset)
+        {
+            ValidateArrayAndOffset(data, pixOffset, 1);
+            byte gray = data[pixOffset];
+            return CreateColor(255, gray, gray, gray);
+        }
+
         private static void ValidateArrayAndOffset(byte[] array, int offset, int requiredLength)
         {
             if (array == null)

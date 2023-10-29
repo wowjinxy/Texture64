@@ -59,10 +59,17 @@ namespace Texture64
             }
             return "unk";
        }
-    
-       public static Color MakeColor(byte[] data, byte[] palette, int offset, int select, ColorCodecs codec, AlphaMode mode)
-      {
-         Color color;
+
+        public static bool swapRedBlue;
+
+        public static Color SwapRedBlue(Color color)
+        {
+            return Color.FromArgb(color.A, color.B, color.G, color.R);
+        }
+
+        public static Color MakeColor(byte[] data, byte[] palette, int offset, int select, ColorCodecs codec, AlphaMode mode)
+        {
+            Color color;
          switch (codec)
          {
             case ColorCodecs.RGBA16:
@@ -107,11 +114,21 @@ namespace Texture64
             case ColorCodecs.RGB8:
                 color = RGB8Color(data, offset);
                 break;
+            case ColorCodecs.GRAYSCALE16:
+                color = Grayscale16Color(data, offset);
+                break;
+            case ColorCodecs.GRAYSCALE8:
+                color = Grayscale8Color(data, offset);
+                break;
             default:
                 color = RGBA16Color(data, offset);
                 break;
             }
-         return color;
+            if (swapRedBlue)
+            {
+                color = SwapRedBlue(color);
+            }
+            return color;
       }
     
        public static void RenderTexture(Graphics g, byte[] data, byte[] palette, int offset, int width, int height, int scale, ColorCodecs codec, AlphaMode mode)

@@ -982,5 +982,24 @@ namespace Texture64
          setPaletteOffset(offset + paletteBytes);
          checkExtPalette.Checked = false;
       }
-   }
+
+        private void SwapRedBlue_Click(object sender, EventArgs e)
+        {
+            N64Graphics.swapRedBlue = !N64Graphics.swapRedBlue;  // Toggle the flag
+
+            // Optionally, update the UI to reflect the change, e.g., change the button text
+            if (N64Graphics.swapRedBlue)
+            {
+                SwapRedBlue.Text = "Unswap Red/Blue";
+            }
+            else
+            {
+                SwapRedBlue.Text = "Swap Red/Blue";
+            }
+
+            // Redraw or refresh your graphics to apply the new setting
+            // For example:
+            Invalidate();
+        }
+    }
 }
