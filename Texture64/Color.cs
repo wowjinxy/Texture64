@@ -164,22 +164,37 @@ namespace Texture64
 
         public static Color[] YUV422Color(byte[] data, int pixOffset)
         {
-            ValidateArrayAndOffset(data, pixOffset, 4);
-            byte y1 = data[pixOffset];
-            byte u = data[pixOffset + 1];
-            byte y2 = data[pixOffset + 2];
-            byte v = data[pixOffset + 3];
+            ValidateArrayAndOffset(data, pixOffset, 4);  // Assuming you have a function for this validation
 
-            // Convert YUV to RGB (this is a simplified conversion)
-            int r1 = (int)(y1 + 1.402 * (v - 128));
-            int g1 = (int)(y1 - 0.344136 * (u - 128) - 0.714136 * (v - 128));
-            int b1 = (int)(y1 + 1.772 * (u - 128));
+            byte Y1 = data[pixOffset];
+            byte U = data[pixOffset + 1];
+            byte Y2 = data[pixOffset + 2];
+            byte V = data[pixOffset + 3];
 
-            int r2 = (int)(y2 + 1.402 * (v - 128));
-            int g2 = (int)(y2 - 0.344136 * (u - 128) - 0.714136 * (v - 128));
-            int b2 = (int)(y2 + 1.772 * (u - 128));
+            int C1 = Y1 - 16;
+            int D = U - 128;
+            int E = V - 128;
 
-            return new[] { CreateColor(255, r1, g1, b1), CreateColor(255, r2, g2, b2) };
+            int R1 = clamp((298 * C1 + 409 * E + 128) >> 8);
+            int G1 = clamp((298 * C1 - 100 * D - 208 * E + 128) >> 8);
+            int B1 = clamp((298 * C1 + 516 * D + 128) >> 8);
+
+            Color color1 = Color.FromArgb(255, R1, G1, B1);
+
+            int C2 = Y2 - 16;
+
+            int R2 = clamp((298 * C2 + 409 * E + 128) >> 8);
+            int G2 = clamp((298 * C2 - 100 * D - 208 * E + 128) >> 8);
+            int B2 = clamp((298 * C2 + 516 * D + 128) >> 8);
+
+            Color color2 = Color.FromArgb(255, R2, G2, B2);
+
+            return new Color[] { color1, color2 };
+        }
+
+        private static int clamp(int val)
+        {
+            return Math.Max(0, Math.Min(255, val));
         }
 
         public static Color Grayscale16Color(byte[] data, int pixOffset)

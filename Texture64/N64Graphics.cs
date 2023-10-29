@@ -1,13 +1,14 @@
 ﻿using System.Drawing;
 using static Texture64.Scales;
 using static Texture64.Colors;
+using System;
 
 namespace Texture64
 {
     public enum ColorCodecs
     {
         RGBA16, RGBA32, IA16, IA8, IA4, I8, I4, CI8, CI4, ONEBPP,
-        RGB565, RGB555, RGB24, RGB8, YUV422, YUV420, GRAYSCALE16, GRAYSCALE8,
+        RGB565, RGB555, RGB24, RGB8, YUV422, /*YUV420,*/ GRAYSCALE16, GRAYSCALE8,
         CMYK, ARGB4444, ARGB1555, RGBA5551, HSV, HSL, LAB, XYZ,
         BC1, BC2, BC3, ETC1, ETC2, PVRTC, ASTC, RLE, TWOBPP, FOURBPP, S3TC
     };
@@ -56,6 +57,10 @@ namespace Texture64
                 case ColorCodecs.RGB555: return "rgb555";
                 case ColorCodecs.RGB24: return "rgb24";
                 case ColorCodecs.RGB8: return "rgb8";
+                case ColorCodecs.YUV422: return "yuv422";
+                case ColorCodecs.GRAYSCALE16: return "Grayscale 16";
+                case ColorCodecs.GRAYSCALE8: return "Grayscale 8";
+
             }
             return "unk";
        }
@@ -120,6 +125,11 @@ namespace Texture64
             case ColorCodecs.GRAYSCALE8:
                 color = Grayscale8Color(data, offset);
                 break;
+            case ColorCodecs.YUV422:
+                Color[] colors = YUV422Color(data, offset);
+                // Note: This will give you two colors, handle them as needed
+                color = colors[0];  // or colors[1]
+                break;
             default:
                 color = RGBA16Color(data, offset);
                 break;
@@ -164,8 +174,27 @@ namespace Texture64
                       break;
                         case ColorCodecs.RGB565: bytesPerPix = 2; pixOffset *= bytesPerPix; break;
                         case ColorCodecs.RGB555: bytesPerPix = 2; pixOffset *= bytesPerPix; break;
-                        case ColorCodecs.RGB24: bytesPerPix = 3; pixOffset *= bytesPerPix; break;
-                        case ColorCodecs.RGB8: bytesPerPix = 1; pixOffset *= bytesPerPix; break;
+                        case ColorCodecs.GRAYSCALE16:
+                            bytesPerPix = 2;
+                            pixOffset *= bytesPerPix;
+                            break;
+
+                        case ColorCodecs.RGB24:
+                            bytesPerPix = 3;
+                            pixOffset *= bytesPerPix;
+                            break;
+
+                        case ColorCodecs.RGB8:
+                        case ColorCodecs.GRAYSCALE8:
+                            bytesPerPix = 1;
+                            pixOffset *= bytesPerPix;
+                            break;
+
+                        case ColorCodecs.YUV422:
+                            // Assuming 4 bytes for 2 pixels
+                            bytesPerPix = 4;
+                            pixOffset = (pixOffset / 2) * bytesPerPix + (pixOffset % 2) * 2;
+                            break;
                     }
                     pixOffset += offset;
                 if (data.Length > pixOffset + bytesPerPix - 1)
@@ -461,7 +490,65 @@ namespace Texture64
                         }
                     }
                     break;
+                case ColorCodecs.YUV422:
+                    for (int y = 0; y < bm.Height; y++)
+                    {
+                        for (int x = 0; x < bm.Width; x += 2)  // Note: x increments by 2
+                        {
+                            Color col1 = bm.GetPixel(x, y);
+                            Color col2;
+                            if (x + 1 < bm.Width)
+                            {
+                                col2 = bm.GetPixel(x + 1, y);
+                            }
+                            else
+                            {
+                                // If it's the last column in an odd-width image, duplicate the last pixel
+                                col2 = col1;
+                            }
+
+                            // Convert RGB to YUV
+                            byte Y1 = (byte)((0.299 * col1.R) + (0.587 * col1.G) + (0.114 * col1.B));
+                            byte Y2 = (byte)((0.299 * col2.R) + (0.587 * col2.G) + (0.114 * col2.B));
+                            byte U = (byte)((-0.14713 * col1.R) - (0.28886 * col1.G) + (0.436 * col1.B));
+                            byte V = (byte)((0.615 * col1.R) - (0.51499 * col1.G) - (0.10001 * col1.B));
+
+                            int idx = 4 * ((y * bm.Width + x) / 2);  // 4 bytes for each pair of pixels
+                            imageData[idx] = Y1;
+                            imageData[idx + 1] = U;
+                            imageData[idx + 2] = Y2;
+                            imageData[idx + 3] = V;
+                        }
+                    }
+                    break;
+                case ColorCodecs.GRAYSCALE16:
+                    for (int y = 0; y < bm.Height; y++)
+                    {
+                        for (int x = 0; x < bm.Width; x++)
+                        {
+                            Color col = bm.GetPixel(x, y);
+                            ushort gray = (ushort)((col.R + col.G + col.B) / 3);
+                            int idx = 2 * (y * bm.Width + x);  // 2 bytes for each pixel
+                            byte[] grayBytes = BitConverter.GetBytes(gray);
+                            imageData[idx] = grayBytes[0];
+                            imageData[idx + 1] = grayBytes[1];
+                        }
+                    }
+                    break;
+                case ColorCodecs.GRAYSCALE8:
+                    for (int y = 0; y < bm.Height; y++)
+                    {
+                        for (int x = 0; x < bm.Width; x++)
+                        {
+                            Color col = bm.GetPixel(x, y);
+                            byte gray = (byte)((col.R + col.G + col.B) / 3);
+                            int idx = y * bm.Width + x;  // 1 byte for each pixel
+                            imageData[idx] = gray;
+                        }
+                    }
+                    break;
+
             }
-       }
+        }
     }
 }

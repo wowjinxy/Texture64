@@ -137,7 +137,7 @@ namespace Texture64
             this.statusStrip1.Location = new System.Drawing.Point(0, 1085);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 28, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1569, 42);
+            this.statusStrip1.Size = new System.Drawing.Size(1574, 42);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -153,7 +153,7 @@ namespace Texture64
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1431, 32);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1436, 32);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // statusStripSize
@@ -200,7 +200,7 @@ namespace Texture64
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1569, 50);
+            this.toolStrip1.Size = new System.Drawing.Size(1574, 50);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -457,7 +457,7 @@ namespace Texture64
             this.groupBoxPalette.Controls.Add(this.splitPaletteCheck);
             this.groupBoxPalette.Controls.Add(this.label4);
             this.groupBoxPalette.Controls.Add(this.gviewPalette);
-            this.groupBoxPalette.Location = new System.Drawing.Point(1271, 319);
+            this.groupBoxPalette.Location = new System.Drawing.Point(1276, 319);
             this.groupBoxPalette.Margin = new System.Windows.Forms.Padding(6);
             this.groupBoxPalette.Name = "groupBoxPalette";
             this.groupBoxPalette.Padding = new System.Windows.Forms.Padding(6);
@@ -842,7 +842,7 @@ namespace Texture64
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(949, 1023);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(954, 1023);
             this.tableLayoutPanel1.TabIndex = 35;
             // 
             // panel1
@@ -867,7 +867,7 @@ namespace Texture64
             this.groupBoxColor.Controls.Add(this.labelColorR);
             this.groupBoxColor.Controls.Add(this.labelColorHex);
             this.groupBoxColor.Controls.Add(this.pictureBoxColor);
-            this.groupBoxColor.Location = new System.Drawing.Point(1271, 48);
+            this.groupBoxColor.Location = new System.Drawing.Point(1276, 48);
             this.groupBoxColor.Margin = new System.Windows.Forms.Padding(6);
             this.groupBoxColor.Name = "groupBoxColor";
             this.groupBoxColor.Padding = new System.Windows.Forms.Padding(6);
@@ -1167,7 +1167,7 @@ namespace Texture64
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1569, 1127);
+            this.ClientSize = new System.Drawing.Size(1574, 1127);
             this.Controls.Add(this.groupBoxPalette);
             this.Controls.Add(this.groupBoxColor);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -1180,7 +1180,7 @@ namespace Texture64
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(6);
-            this.MinimumSize = new System.Drawing.Size(974, 938);
+            this.MinimumSize = new System.Drawing.Size(1400, 938);
             this.Name = "ImageForm";
             this.Text = "Texture64";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ImageForm_FormClosing);
