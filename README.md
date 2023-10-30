@@ -1,5 +1,5 @@
 # Texture64
-N64 texture ripper and editor
+N64 and More texture ripper and editor
 
 ![Win10 Screenshot](https://user-images.githubusercontent.com/129774/103450795-122e3b80-4c70-11eb-856a-75b7d166ca0c.png "RGBA16 SM64 HUD Elements - Win10")
 
@@ -15,6 +15,13 @@ N64 texture ripper and editor
    * CI8
    * CI4
    * 1bpp
+   * rgb565
+   * rgb555
+   * rgb24
+   * rgb8
+   * YUV422
+   * Grayscale8
+   * Grayscele16
 * Load palette from separate file
 * Split palette mode to point part of palette to non-contiguous area
 * Multiplatform. Tested under Windows 10, Windows 7, and on Linux using [Mono](https://www.mono-project.com/)
@@ -35,6 +42,12 @@ N64 texture ripper and editor
 * Enable "External Palette" to use different file for CI palette
 
 ### Changelog ###
+
+0.3: More texture types supported and Red/Blue swap
+* Split some of the code to make it easier to maintain
+* Added support for rgb565, rgb555, rgb24, rgb8, YUV422, Grayscale8, and Grayscale16
+* Added button to swap Red and Blue channels
+* Refactored the color codec code
 
 0.2: UI Updates and bug fixes
 * Save settings for Form position, scale, BG color, custom viewer
